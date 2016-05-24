@@ -1,0 +1,11 @@
+@import 'pure';
+
+h1 {
+  font-size: 2em;
+  margin: 0.5em 0 1em;
+
+  & > small {
+    color: gray;
+    font-size: 70%;
+  }
+}
