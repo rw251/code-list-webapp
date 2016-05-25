@@ -2,9 +2,31 @@ var updateProgress = function(e) {
   if (e.lengthComputable) {
     //evt.loaded the bytes browser receive
     //evt.total the total bytes seted by the header
-    self.postMessage({ loaded: e.loaded, total: e.total, progress: 100*e.loaded/e.total, file:self.file });
+    self.postMessage({ loaded: e.loaded, total: e.total, progress: 100 * e.loaded / e.total, file: self.file });
   } else {
-    self.postMessage({ loaded: e.loaded, total: self.total, progress: 100*e.loaded/self.total, file:self.file });
+    self.postMessage({ loaded: e.loaded, total: self.total, progress: 100 * e.loaded / self.total, file: self.file });
+  }
+};
+
+var config = {
+  READv2: {
+    graph: {
+      filename: "data/data_graph.json",
+      nicename: "Read code graph",
+      size: 11280760
+    },
+    index: {
+      lunr: {
+        filename: "data/data_index_READv2.lunr.json",
+        nicename: "Read code dictionary",
+        size: 56972180
+      },
+      elasticlunr: {
+        filename: "data/data_index_READv2.elasticlunr.json",
+        nicename: "Read code dictionary",
+        size: 38891490
+      }
+    }
   }
 };
 
@@ -30,18 +52,19 @@ var loadJSON = function(url, callback) {
 };
 
 console.time("importing lunr.js");
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.7.1/lunr.min.js');
+//importScripts('https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.7.1/lunr.min.js');
+importScripts('/elasticlunr.min.js');
 console.timeEnd("importing lunr.js");
 
 self.loadIndex = function(url, callback) {
-  self.total=56972180;
-  self.file="Read code dictionary";
-  loadJSON(url + 'data/data_index.json', function(err, index) {
+  self.total = config.READv2.index.elasticlunr.size;
+  self.file = config.READv2.index.elasticlunr.nicename;
+  loadJSON(url + config.READv2.index.elasticlunr.filename, function(err, index) {
     if (err) {
       return callback(err);
     } else {
       console.time("loading index");
-      self.index = lunr.Index.load(index);
+      self.index = elasticlunr.Index.load(index);
       console.timeEnd("loading index");
       return callback(null);
     }
@@ -49,9 +72,9 @@ self.loadIndex = function(url, callback) {
 };
 
 self.loadGraph = function(url, callback) {
-  self.total=11280760;
-  self.file="Read code graph";
-  loadJSON(url + 'data/data_graph.json', function(err, graph) {
+  self.total = config.READv2.graph.size;
+  self.file = config.READv2.graph.nicename;
+  loadJSON(url + config.READv2.graph.filename, function(err, graph) {
     if (err) {
       return callback(err);
     } else {
@@ -110,7 +133,7 @@ self.addEventListener('message', function(e) {
         self.postMessage('Index not ready');
       } else {
         self.postMessage({
-          results: self.index.search(data.text).map(function(v) {
+          results: self.index.search(data.text, { expand: true }).map(function(v) {
             return { code: v.ref, description: self.graph[v.ref].d };
           })
         });
