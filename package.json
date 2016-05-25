@@ -6,9 +6,14 @@
   "scripts": {
     "start": "brunch watch --server",
     "build": "brunch build --production",
-    "predeploy": "npm run build && cd public",
-    "deploy": "git add -A && git commit -m \"Latest changes\" ",
-    "postdeploy": "git push origin gh-pages"
+
+    "predeploy": "npm run build && cd public && git add -A",
+    "deploy": "cd public && git commit -m \"changes\"",
+    "postdeploy": "cd public && git push origin gh-pages",
+
+    "precommit": "git add -A",
+    "commit": "git commit -m ",
+    "postcommit": "git push origin master"
   },
   "repository": {
     "type": "git",
