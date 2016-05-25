@@ -13,7 +13,7 @@ var timer = {
 var App = {
   init: function init() {
 
-    var loader = new Worker('workers/dataloader.js');// work(require('scripts/dataloader'));
+    var loader = new Worker('workers/dataloader.js'); // work(require('scripts/dataloader'));
     loader.addEventListener('message', function(ev) {
       if (ev.data.indexLoaded) {
         $('#search').on('input', function(e) {
@@ -37,10 +37,19 @@ var App = {
           $('#results').append("<div>" + v.code + ": " + v.description + "</div>");
         });
         console.log("Num: " + ev.data.results.length);
-      } else if(ev.data.progress) {
-        console.log(ev.data.loaded,ev.data.total);
-        var n=Math.floor(ev.data.progress/10);
-        $('#results').html(new Array(n).join("+") + new Array(10-n).join("-"));
+      } else if (ev.data.progress) {
+        //console.log(ev.data);
+        if (ev.data.file) {
+          if (ev.data.progress < 100) {
+            $('#message').append('<div>Loading ' + ev.data.file + '</div>');
+          } else {
+            $('#message').append('<div>' + ev.data.file + ' loaded</div>');
+          }
+        } else {
+          //console.log(ev.data.loaded, ev.data.total);
+          var n = Math.floor(ev.data.progress / 5);
+          $('#progress').html(new Array(n).join("+") + new Array(20 - n).join("-"));
+        }
       } else {
         console.log(ev.data);
       }

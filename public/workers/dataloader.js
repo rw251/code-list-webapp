@@ -2,12 +2,9 @@ var updateProgress = function(e) {
   if (e.lengthComputable) {
     //evt.loaded the bytes browser receive
     //evt.total the total bytes seted by the header
-    //
-    //var percentComplete = (evt.loaded / evt.total) * 100;
-    //$('#progressbar').progressbar("option", "value", percentComplete);
     self.postMessage({ loaded: e.loaded, total: e.total, progress: 100*e.loaded/e.total });
   } else {
-    self.postMessage({ loaded: e.loaded });
+    self.postMessage({ loaded: e.loaded, total: self.total, progress: 100*e.loaded/self.total });
   }
 };
 
@@ -37,10 +34,13 @@ importScripts('https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.7.1/lunr.min.js'
 console.timeEnd("importing lunr.js");
 
 self.loadIndex = function(url, callback) {
+  self.total=56972187;
+  self.postMessage({ progress: 0, file:"Read code dictionary" });
   loadJSON(url + 'data/data_index.json', function(err, index) {
     if (err) {
       return callback(err);
     } else {
+      self.postMessage({ progress: 100, file:"Read code dictionary" });
       console.time("loading index");
       self.index = lunr.Index.load(index);
       console.timeEnd("loading index");
@@ -50,11 +50,13 @@ self.loadIndex = function(url, callback) {
 };
 
 self.loadGraph = function(url, callback) {
-  console.time("loading graph");
+  self.total=11280763;
+  self.postMessage({ progress: 0, file:"Read code graph" });
   loadJSON(url + 'data/data_graph.json', function(err, graph) {
     if (err) {
       return callback(err);
     } else {
+      self.postMessage({ progress: 100, file:"Read code graph" });
       self.graph = graph;
       return callback(null);
     }
