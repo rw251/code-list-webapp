@@ -1,8 +1,20 @@
 module.exports = function(self, $) {
 
+  var updateProgress = function(e) {
+    if (e.lengthComputable) {
+      //evt.loaded the bytes browser receive
+      //evt.total the total bytes seted by the header
+      //
+      //var percentComplete = (evt.loaded / evt.total) * 100;
+      //$('#progressbar').progressbar("option", "value", percentComplete);
+      self.postMessage({progress:e.loaded});
+    }
+  };
+
   var loadJSON = function(url, callback) {
     console.time("Loading: " + url);
     var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onprogress = updateProgress;
     xmlhttp.open('GET', url, true);
     xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4) {
@@ -88,7 +100,7 @@ module.exports = function(self, $) {
           if (err) {
             self.postMessage('WORKER ERROR: ' + err);
           } else {
-            self.postMessage({indexLoaded:true});
+            self.postMessage({ indexLoaded: true });
           }
         });
         break;
@@ -97,9 +109,11 @@ module.exports = function(self, $) {
         if (!self.index) {
           self.postMessage('Index not ready');
         } else {
-          self.postMessage({results: self.index.search(data.text).map(function(v) {
-            return {code: v.ref, description: self.graph[v.ref].d};
-          })});
+          self.postMessage({
+            results: self.index.search(data.text).map(function(v) {
+              return { code: v.ref, description: self.graph[v.ref].d };
+            })
+          });
         }
         break;
       default:

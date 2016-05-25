@@ -1,5 +1,5 @@
 module.exports = function (fn) {
-    var src = '('+fn+')(self)';
+    var src = '('+fn+')(self)\n\n//# sourceMappingURL: name.js';
 
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 
