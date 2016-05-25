@@ -8,7 +8,7 @@
     "build": "brunch build --production",
     "predeploy": "npm run build",
     "deploy:gh": "git subtree push --prefix public origin gh-pages",
-    "deploy": "git add --all && git commit -m 'deploy' && git push origin master && git subtree push --prefix public origin gh-pages"
+    "deploy": "git add --all && git commit -m \"deploy\" && git push origin master && git subtree push --prefix public origin gh-pages"
   },
   "repository": {
     "type": "git",
