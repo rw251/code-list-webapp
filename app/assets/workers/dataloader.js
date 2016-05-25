@@ -6,6 +6,8 @@ var updateProgress = function(e) {
     //var percentComplete = (evt.loaded / evt.total) * 100;
     //$('#progressbar').progressbar("option", "value", percentComplete);
     self.postMessage({ loaded: e.loaded, total: e.total, progress: 100*e.loaded/e.total });
+  } else {
+    self.postMessage({ loaded: e.loaded });
   }
 };
 
