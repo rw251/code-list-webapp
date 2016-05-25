@@ -40,15 +40,12 @@ var App = {
       } else if (ev.data.progress) {
         //console.log(ev.data);
         if (ev.data.file) {
-          if (ev.data.progress < 100) {
-            $('#message').append('<div>Loading ' + ev.data.file + '</div>');
-          } else {
-            $('#message').append('<div>' + ev.data.file + ' loaded</div>');
-          }
-        } else {
-          //console.log(ev.data.loaded, ev.data.total);
           var n = Math.floor(ev.data.progress / 5);
-          $('#progress').html(new Array(n).join("+") + new Array(20 - n).join("-"));
+          if (ev.data.progress < 100) {
+            $('#progress').html('<span class="progress">' + new Array(n).join('<span class="loaded">█</span>') + new Array(21 - n).join('<span class="loading">█</span>')+'</span> - ' + ev.data.file + ' - LOADING...');
+          } else {
+            $('#progress').html('<span class="progress">' + new Array(n).join('<span class="loaded">█</span>') + new Array(21 - n).join('<span class="loading">█</span>')+'</span> - ' + ev.data.file + ' - COMPLETED');
+          }
         }
       } else {
         console.log(ev.data);

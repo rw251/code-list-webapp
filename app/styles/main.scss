@@ -1,5 +1,7 @@
 @import 'pure';
 
+$mono: "Lucida Console", Monaco, monospace;
+
 h1 {
   font-size: 2em;
   margin: 0.5em 0 1em;
@@ -11,5 +13,21 @@ h1 {
 }
 
 .progress {
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: $mono;
+  border: 2px solid #332;
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  span {
+    padding-left:1px;
+    padding-right:1px;
+  }
+
+  .loaded {
+    color: green;
+  }
+
+  .loading {
+    color: #aaa;
+  }
 }

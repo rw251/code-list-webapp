@@ -1462,18 +1462,31 @@ striping:
 .pure-table-horizontal tbody > tr:last-child > td {
   border-bottom-width: 0; }
 
-/* line 3, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
+/* line 5, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
 h1 {
   font-size: 2em;
   margin: 0.5em 0 1em; }
-  /* line 7, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
+  /* line 9, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
   h1 > small {
     color: gray;
     font-size: 70%; }
 
-/* line 13, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
+/* line 15, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
 .progress {
-  font-family: "Lucida Console", Monaco, monospace; }
+  font-family: "Lucida Console", Monaco, monospace;
+  border: 2px solid #332;
+  padding-top: 2px;
+  padding-bottom: 2px; }
+  /* line 21, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
+  .progress span {
+    padding-left: 1px;
+    padding-right: 1px; }
+  /* line 26, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
+  .progress .loaded {
+    color: green; }
+  /* line 30, C:/Users/MDEHSRW9/Documents/Git/Development/code-list-creator-webapp/app/styles/main.scss */
+  .progress .loading {
+    color: #aaa; }
 
 /*!
 Pure v0.6.0
