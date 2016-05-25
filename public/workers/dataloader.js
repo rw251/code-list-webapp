@@ -53,7 +53,7 @@ var loadJSON = function(url, callback) {
 
 console.time("importing lunr.js");
 //importScripts('https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.7.1/lunr.min.js');
-importScripts('/elasticlunr.min.js');
+importScripts('../elasticlunr.min.js');
 console.timeEnd("importing lunr.js");
 
 self.loadIndex = function(url, callback) {
