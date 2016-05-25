@@ -34,7 +34,7 @@ importScripts('https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.7.1/lunr.min.js'
 console.timeEnd("importing lunr.js");
 
 self.loadIndex = function(url, callback) {
-  self.total=56972187;
+  self.total=56972180;
   self.file="Read code dictionary";
   loadJSON(url + 'data/data_index.json', function(err, index) {
     if (err) {
@@ -49,7 +49,7 @@ self.loadIndex = function(url, callback) {
 };
 
 self.loadGraph = function(url, callback) {
-  self.total=11280763;
+  self.total=11280760;
   self.file="Read code graph";
   loadJSON(url + 'data/data_graph.json', function(err, graph) {
     if (err) {
