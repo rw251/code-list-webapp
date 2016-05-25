@@ -38,6 +38,7 @@ var App = {
         });
         console.log("Num: " + ev.data.results.length);
       } else if(ev.data.progress) {
+        console.log(ev.data.loaded,ev.data.total);
         var n=Math.floor(ev.data.progress/10);
         $('#results').html(new Array(n).join("+") + new Array(10-n).join("-"));
       } else {
