@@ -79,17 +79,17 @@ self.loadGraph = function(url, callback) {
       return callback(err);
     } else {
       self.graph = graph;
-      return callback(null);
+      return callback(null, graph);
     }
   });
 };
 
 self.load = function(url, callback) {
-  self.loadGraph(url, function(err) {
+  self.loadGraph(url, function(err, graph) {
     if (err) return callback(err);
     self.loadIndex(url, function(err) {
       if (err) return callback(err);
-      return callback(null);
+      return callback(null, graph);
     });
   });
 };
@@ -123,7 +123,7 @@ self.addEventListener('message', function(e) {
         if (err) {
           self.postMessage('WORKER ERROR: ' + err);
         } else {
-          self.postMessage({ indexLoaded: true });
+          self.postMessage({ indexLoaded: true }); //, graph: graph });
         }
       });
       break;
@@ -134,8 +134,39 @@ self.addEventListener('message', function(e) {
       } else {
         self.postMessage({
           results: self.index.search(data.text, { expand: true }).map(function(v) {
-            return { code: v.ref, description: self.graph[v.ref].d };
+            return { code: v.ref, description: self.graph[v.ref].d, parent: self.graph[v.ref].p };
           })
+        });
+      }
+      break;
+    case 'graph':
+      self.postMessage('WORKER STARTED: ' + data.cmd + ' - ' + data.node);
+      if (!self.graph) {
+        self.postMessage('Graph not ready');
+      } else {
+        var rtn = {};
+        var children = Object.keys(self.graph).filter(function(v) {
+          return self.graph[v].p === data.node;
+        });
+        rtn[data.node]={
+          node: data.node,
+          children: children,
+          description: self.graph[data.node].d
+        };
+        rtn[self.graph[data.node].p]={
+          node: self.graph[data.node].p,
+          children: [data.node],
+          description: self.graph[self.graph[data.node].p].d
+        };
+        children.forEach(function(v) {
+          rtn[v]={
+            node: v,
+            children: [],
+            description: self.graph[v].d
+          };
+        });
+        self.postMessage({
+          graph: rtn
         });
       }
       break;
