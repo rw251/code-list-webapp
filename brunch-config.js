@@ -5,6 +5,14 @@ module.exports = {
       joinTo: {
         'libraries.js': /^(?!app\/)/,
         'app.js': /^app\//
+      },
+      order: {
+        before: [
+          /jquery/
+        ],
+        after: [
+          /cytoscape-qtip/
+        ]
       }
     },
     stylesheets: { joinTo: 'app.css' },

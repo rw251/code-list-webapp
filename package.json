@@ -6,11 +6,9 @@
   "scripts": {
     "start": "brunch watch --server",
     "build": "brunch build --production",
-
     "predeploy": "npm run build && cd public && git add -A",
     "deploy": "cd public && git commit -m \"changes\"",
     "postdeploy": "cd public && git push origin gh-pages",
-
     "precommit": "git add -A",
     "commit": "git commit -m ",
     "postcommit": "git push origin master"
@@ -22,11 +20,18 @@
   "author": "Richard Williams <richard.williams2@manchester.ac.uk>",
   "license": "MIT",
   "dependencies": {
+    "cytoscape": "^2.6.12",
+    "cytoscape-dagre": "^1.3.0",
+    "cytoscape-qtip": "^2.4.0",
+    "dagre": "^0.7.4",
     "event-stream": "^3.3.2",
     "jquery": "^1.12.4",
     "jsonfile": "^2.3.1",
     "lunr": "^0.7.1",
     "path": "^0.12.7",
+    "qtip2": "^2.2.0",
+    "sigma": "^1.1.0",
+    "vivagraphjs": "^0.8.1",
     "webworkify": "^1.2.1"
   },
   "devDependencies": {
