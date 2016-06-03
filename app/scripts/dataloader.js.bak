@@ -110,8 +110,8 @@ module.exports = function(self, $) {
           self.postMessage('Index not ready');
         } else {
           self.postMessage({
-            results: self.index.search(data.text).map(function(v) {
-              return { code: v.ref, description: self.graph[v.ref].d };
+            results: self.index.search(data.text, {bool:"AND"}).map(function(v) {
+              return { code: v.ref+"!2", description: self.graph[v.ref].d };
             })
           });
         }

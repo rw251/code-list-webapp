@@ -40,21 +40,24 @@ var App = {
     loader.addEventListener('message', function(ev) {
       if (ev.data.indexLoaded) {
         //window.g = ev.data.graph;
-        $('#search').on('input', function(e) {
-          var searchBoxBalue = $(this).val();
+
+        $('#search').removeClass('bg-danger').on('input', function(e) {
+          var searchBoxValue = $(this).val();
           var now = new Date();
           if (now - timer.last < 150 && timer.obj) {
             console.log("clearing last");
             clearTimeout(timer.obj);
           }
           timer.last = now;
-          if (searchBoxBalue.length > 2) {
+          if (searchBoxValue.split(" ").filter(function(v){
+            return v.length<=2;
+          }).length === 0) {
             timer.obj = setTimeout(function() {
-              loader.postMessage({ cmd: "search", text: searchBoxBalue });
+              loader.postMessage({ cmd: "search", text: searchBoxValue });
               layout.clear();
             }, 150);
-          } else
-            $('#results').html('');
+          } //else
+            //$('#results').html('');
         });
       } else if(ev.data.graph){
         Object.keys(ev.data.graph).forEach(function(v){
