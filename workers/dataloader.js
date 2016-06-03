@@ -133,7 +133,7 @@ self.addEventListener('message', function(e) {
         self.postMessage('Index not ready');
       } else {
         self.postMessage({
-          results: self.index.search(data.text, { expand: true }).map(function(v) {
+          results: self.index.search(data.text, { expand: true, bool: "AND" }).map(function(v) {
             return { code: v.ref, description: self.graph[v.ref].d, parent: self.graph[v.ref].p };
           })
         });
