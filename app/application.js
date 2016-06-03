@@ -49,20 +49,21 @@ var App = {
             clearTimeout(timer.obj);
           }
           timer.last = now;
-          if (searchBoxValue.split(" ").filter(function(v){
+          /*if (searchBoxValue.split(" ").filter(function(v){
             return v.length<=2;
-          }).length === 0) {
+          }).length === 0) {*/
+          if (searchBoxValue.length > 2) {
             timer.obj = setTimeout(function() {
               loader.postMessage({ cmd: "search", text: searchBoxValue });
-              layout.clear();
             }, 150);
           } //else
-            //$('#results').html('');
+          //$('#results').html('');
         });
-      } else if(ev.data.graph){
-        Object.keys(ev.data.graph).forEach(function(v){
-          if(ev.data.graph[v].children.length>0){
-            ev.data.graph[v].children.forEach(function(vv){
+      } else if (ev.data.graph) {
+        layout.clear();
+        Object.keys(ev.data.graph).forEach(function(v) {
+          if (ev.data.graph[v].children.length > 0) {
+            ev.data.graph[v].children.forEach(function(vv) {
               layout.addNodes({
                 id: v,
                 label: ev.data.graph[v].description
@@ -73,12 +74,14 @@ var App = {
             });
           }
         });
-        layout.layout();
-      } else if (ev.data.results && ev.data.results.length>0) {
+        layout.layout(function(id) {
+          loader.postMessage({ cmd: "graph", node: id });
+        });
+      } else if (ev.data.results && ev.data.results.length > 0) {
         console.time('Display graph');
 
 
-        loader.postMessage({cmd: "graph", node: ev.data.results[0].code});
+        loader.postMessage({ cmd: "graph", node: ev.data.results[0].code });
 
         /*ev.data.results.forEach(function(v) {
           graph.addNode(v.code);

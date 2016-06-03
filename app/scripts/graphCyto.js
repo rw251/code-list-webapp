@@ -74,15 +74,16 @@ var gc = {
     ]);
   },
 
-  layout: function() {
+  layout: function(onClickFn) {
     //cy.layout({name:'cose'});
-    gc.cy.layout({ name: 'dagre', nodeSep: 5, rankDir: 'LR' }).panzoom();
+    gc.cy.layout({ name: 'dagre', nodeSep: 5, rankDir: 'LR', minLen:3 }).panzoom();
 
     gc.cy.off('click', 'node');
     gc.cy.on('click', 'node', function(event) {
       var node = event.cyTarget;
       console.log(event);
-      node.qtip({
+      onClickFn(node.data('id'));
+      /*node.qtip({
         content: node.data('label'),
         position: {
           my: 'top center',
@@ -99,7 +100,7 @@ var gc = {
         hide: {
           event: 'unfocus'
         }
-      }, event);
+      }, event);*/
     });
 
   }
