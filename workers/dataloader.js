@@ -148,18 +148,20 @@ self.addEventListener('message', function(e) {
         var children = Object.keys(self.graph).filter(function(v) {
           return self.graph[v].p === data.node;
         });
-        rtn[data.node]={
+        rtn[data.node] = {
           node: data.node,
           children: children,
-          description: self.graph[data.node].d
+          description: self.graph[data.node] ? self.graph[data.node].d : "Root"
         };
-        rtn[self.graph[data.node].p]={
-          node: self.graph[data.node].p,
-          children: [data.node],
-          description: self.graph[self.graph[data.node].p].d
-        };
+        if (self.graph[data.node] && self.graph[data.node].p) {
+          rtn[self.graph[data.node].p] = {
+            node: self.graph[data.node].p,
+            children: [data.node],
+            description: self.graph[self.graph[data.node].p] ? self.graph[self.graph[data.node].p].d : "Root"
+          };
+        }
         children.forEach(function(v) {
-          rtn[v]={
+          rtn[v] = {
             node: v,
             children: [],
             description: self.graph[v].d
